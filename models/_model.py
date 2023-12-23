@@ -1,8 +1,5 @@
 from sqlalchemy.orm import DeclarativeBase, relationship
-from sqlalchemy import create_engine, Column, Integer, Text, ForeignKey
-
-
-_engine = create_engine('sqlite:///' + '/home/semenenko/MyProjects/personal.db')
+from sqlalchemy import Column, Integer, Text, ForeignKey
 
 
 class Base(DeclarativeBase):
@@ -87,6 +84,3 @@ class Registr(Base):
     url = Column(Text)
     registry_id = Column(Integer, ForeignKey('candidates.id'))
     candidate = relationship('Candidate', back_populates='registr')
-
-Base.metadata.drop_all(_engine)
-Base.metadata.create_all(_engine)
