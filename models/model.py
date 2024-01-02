@@ -222,7 +222,7 @@ class Check(Base):
     bankruptcy: Mapped[str] = mapped_column(Text, nullable=True)
     bki: Mapped[str] = mapped_column(Text, nullable=True)
     courts: Mapped[str] = mapped_column(Text, nullable=True)
-    affiliation: Mapped[str] = mapped_column(Text, nullable=True)
+    affilation: Mapped[str] = mapped_column(Text, nullable=True)
     terrorist: Mapped[str] = mapped_column(Text, nullable=True)
     mvd: Mapped[str] = mapped_column(Text, nullable=True)
     internet: Mapped[str] = mapped_column(Text, nullable=True)

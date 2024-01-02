@@ -45,7 +45,7 @@ class Check(Base):
     check_debt = Column(Text)
     check_bankruptcy = Column(Text)
     check_bki = Column(Text)
-    check_affiliation = Column(Text)
+    check_affilation = Column(Text)
     check_internet = Column(Text)
     check_cronos = Column(Text)
     check_cross = Column(Text)
