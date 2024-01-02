@@ -92,8 +92,8 @@ class Person(Base):
     addition: Mapped[str] = mapped_column(Text, nullable=True)
     path: Mapped[str] = mapped_column(Text, nullable=True)
     status_id: Mapped[int] = mapped_column(ForeignKey('statuses.id'))
-    create: Mapped[datetime] = mapped_column(Date, default=default_time, nullable=True)
-    update: Mapped[datetime] = mapped_column(Date, onupdate=default_time, nullable=True)
+    created: Mapped[datetime] = mapped_column(Date, default=default_time, nullable=True)
+    updated: Mapped[datetime] = mapped_column(Date, onupdate=default_time, nullable=True)
     staffs: Mapped[List['Staff']] = relationship(
         back_populates='persons', cascade="all, delete, delete-orphan"
         )

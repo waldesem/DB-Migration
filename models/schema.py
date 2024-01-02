@@ -16,7 +16,14 @@ class PersonSchema(Schema):
     snils = fields.Str()
     inn = fields.Str()
     education = fields.Str()
+    updated = fields.Str()
     status_id = fields.Int(default = 9)
+        
+    @post_dump
+    def fullname_handler(self, data, **kwargs):
+        if isinstance(data['fullname'], str):
+            data['fullname'] = re.sub(r'\s+', ' ', data['fullname'].strip()).upper()
+        return data
 
     @post_dump
     def birthday_handler(self, data, **kwargs):
@@ -28,7 +35,11 @@ class PersonSchema(Schema):
         else:
             data['birthday'] = datetime.strptime("1900-01-01", '%Y-%m-%d').date()
         return data
-        
+    
+    @post_dump
+    def updated_handler(self, data, **kwargs):
+        data['updated'] = datetime.now()
+        return data
 
 class CheckSchema(Schema):
     id = fields.Int()
@@ -41,7 +52,7 @@ class CheckSchema(Schema):
     internet = fields.Str(attribute="check_internet")
     cronos = fields.Str(attribute="check_cronos")
     cros = fields.Str(attribute="check_cross")
-    conclusion_id = fields.Str(attribute="resume")
+    conclusion = fields.Str(attribute="resume")
     officer = fields.Str()
     deadline = fields.Str(attribute="date_check")
     person_id = fields.Str(attribute="check_id")
@@ -50,28 +61,28 @@ class CheckSchema(Schema):
     def date_check_handler(self, data, **kwargs):
         if isinstance(data['deadline'], str) and re.match('\d{4}-\d{2}-\d{2}', data['deadline']):
             try:
-                data['deadline'] = datetime.strptime(data['deadline'], '%Y-%m-%d').date()
+                data['deadline'] = datetime.strptime(data['deadline'], '%Y-%m-%d')
             except ValueError:
-                data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d').date()
+                data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d')
         else:
-            data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d').date()
+            data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d')
         return data
     
     @post_dump
     def conclusion_handler(self, data, **kwargs):
-        if data['conclusion_id']:
-            if data['conclusion_id'].lower() in ['СОГЛАСОВАНО С КОММЕНТАРИЕМ'.lower(), 
+        if data['conclusion']:
+            if data['conclusion'].lower() in ['СОГЛАСОВАНО С КОММЕНТАРИЕМ'.lower(), 
                                             'С КОММЕНТАРИЕМ'.lower()]:
-                data['conclusion_id'] = 2
-            elif data['conclusion_id'].lower() in ['ОТКАЗАНО В СОГЛАСОВАНИИ'.lower(), 
+                data['conclusion'] = 2
+            elif data['conclusion'].lower() in ['ОТКАЗАНО В СОГЛАСОВАНИИ'.lower(), 
                                             'ОТКАЗ'.lower(),
                                             'НЕГАТИВ'.lower(),
                                             '']:
-                data['conclusion_id'] = 3
+                data['conclusion'] = 3
             else:
-                data['conclusion_id'] = 1
+                data['conclusion'] = 1
         else:
-            data['conclusion_id'] = 1
+            data['conclusion'] = 1
         return data
             
 
@@ -86,11 +97,11 @@ class InquirySchema(Schema):
     def date_inq_handler(self, data, **kwargs):
         if isinstance(data['deadline'], str) and re.match('\d{4}-\d{2}-\d{2}', data['deadline']):
             try:
-                data['deadline'] = datetime.strptime(data['deadline'], '%Y-%m-%d').date()
+                data['deadline'] = datetime.strptime(data['deadline'], '%Y-%m-%d')
             except ValueError:
-                data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d').date()
+                data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d')
         else:
-            data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d').date()
+            data['deadline'] = datetime.strptime("1900-01-01", '%Y-%m-%d')
         return data
         
     

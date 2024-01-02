@@ -152,7 +152,7 @@ def upgrade_db():
         sa.Column('courts', sa.Text()),
         sa.Column('terrorist', sa.Text()),
         sa.Column('mvd', sa.Text()),
-        sa.Column('deadline', sa.Date()),
+        sa.Column('deadline', sa.DateTime()),
         sa.Column('person_id', sa.Integer()),
         sa.ForeignKeyConstraint(('person_id',), ['persons.id'],),
     )
@@ -195,8 +195,8 @@ def upgrade_db():
         sa.Column('path', sa.Text()),
         sa.Column('status_id', sa.Integer()),
         sa.ForeignKeyConstraint(('status_id',), ['statuses.id'],),
-        sa.Column('create', sa.DateTime()),
-        sa.Column('update', sa.DateTime())
+        sa.Column('created', sa.DateTime()),
+        sa.Column('updated', sa.DateTime())
     )
     res = conn.execute(sa.text(
         "SELECT id, full_name, last_name, birthday, birth_place, country, snils, inn, education FROM candidates"
@@ -224,10 +224,10 @@ def upgrade_db():
         sa.Column('addition', sa.Text()),
         sa.Column('pfo', sa.Boolean()),
         sa.Column('comments', sa.Text()),
-        sa.Column('conclusion_id', sa.Integer()),
-        sa.ForeignKeyConstraint(('conclusion_id',), ['conclusions.id'],),
+        sa.Column('conclusion', sa.Integer()),
+        sa.ForeignKeyConstraint(('conclusion',), ['conclusions.id'],),
         sa.Column('officer', sa.String(255)),
-        sa.Column('deadline', sa.Date()),
+        sa.Column('deadline', sa.DateTime()),
         sa.Column('person_id', sa.Integer()),
         sa.ForeignKeyConstraint(('person_id',), ['persons.id'],),
     )
@@ -246,7 +246,7 @@ def upgrade_db():
         sa.Column('initiator', sa.String(255)),
         sa.Column('source', sa.String(255)),
         sa.Column('officer', sa.String(255)),
-        sa.Column('deadline', sa.Date()),
+        sa.Column('deadline', sa.DateTime()),
         sa.Column('person_id', sa.Integer()),
         sa.ForeignKeyConstraint(('person_id',), ['persons.id'],)
     )
